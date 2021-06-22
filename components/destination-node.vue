@@ -9,7 +9,6 @@ export default {
     name: "destination-node",
     props: {
         audioCtx: {},
-        input: {},
         value: {}
     },
     mounted() {

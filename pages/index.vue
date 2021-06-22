@@ -35,16 +35,17 @@
                        :i="item.i"
                        :key="item.i"
                        @move="moveEvent(item)"
+                       @moved="moveEnded(item)"
                        drag-allow-from=".vue-draggable-handle"
                        drag-ignore-from=".no-drag">
                 <div>
-                    <div class="d-flex align-center" :id="item.i">
-                        <div v-if="item.hasInput">
+                    <div class="d-flex align-center">
+                        <div v-if="item.hasInput" :id="'input' + item.i">
                             <v-icon @click="endDraw(item)">mdi-circle</v-icon>
                         </div>
                         <component class="vue-draggable-handle" :is="item.component" :audioCtx="audioCtx"
                                    :audioDestination="item.audioDestination" v-model="item.audioNodeCtx"></component>
-                        <div v-if="item.hasOutput">
+                        <div v-if="item.hasOutput" :id="'output' + item.i">
                             <v-icon @click="beginDraw(item)">mdi-circle</v-icon>
                         </div>
                     </div>
@@ -68,7 +69,7 @@ export default {
                 {
                     name: "Oscillator Node",
                     component: "oscillator-node",
-                    width: 4,
+                    width: 5,
                     height: 10,
                     hasInput: false,
                     hasOutput: true
@@ -76,16 +77,16 @@ export default {
                 {
                     name: "Gain Node",
                     component: "gain-node",
-                    width: 4,
-                    height: 10,
+                    width: 5,
+                    height: 3,
                     hasInput: true,
                     hasOutput: true
                 },
                 {
                     name: "Destination Node",
                     component: "destination-node",
-                    width: 4,
-                    height: 2,
+                    width: 5,
+                    height: 3,
                     hasInput: true,
                     hasOutput: false
                 },
@@ -124,8 +125,8 @@ export default {
             this.currentSource = source;
         },
         endDraw(destination) {
-            let line = LeaderLine.setLine(document.getElementById(this.currentSource.i),
-                document.getElementById(destination.i)
+            let line = LeaderLine.setLine(document.getElementById('output' + this.currentSource.i),
+                document.getElementById('input' + destination.i)
             );
             this.currentSource.outputLine = line;
             this.currentSource.audioDestination = destination.audioNodeCtx;
@@ -135,6 +136,13 @@ export default {
             if (item.inputLine) item.inputLine.position();
             if (item.outputLine) item.outputLine.position();
         },
+        moveEnded(item){
+            const func = () => {
+                this.moveEvent(item)
+            }
+            let interval = setInterval(func, 50);
+            setTimeout(()=>{clearInterval(interval)},1100)
+        }
     }
 }
 </script>
