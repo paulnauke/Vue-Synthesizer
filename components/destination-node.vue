@@ -1,5 +1,5 @@
 <template>
-    <v-card max-width="300">
+    <v-card width="100%" height="100%">
         <v-card-title>Destination Node</v-card-title>
     </v-card>
 </template>
@@ -9,7 +9,8 @@ export default {
     name: "destination-node",
     props: {
         audioCtx: {},
-        value: {}
+        value: {},
+        sourceNode: {},
     },
     mounted() {
         this.init();

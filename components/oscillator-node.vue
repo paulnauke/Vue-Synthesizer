@@ -1,5 +1,5 @@
 <template>
-    <v-card max-width="300">
+    <v-card width="100%" height="100%">
         <v-card-title>Oscillator Node</v-card-title>
         <v-card-text>
             <v-select label="Type" :items="types" v-model="type"></v-select>
@@ -14,7 +14,8 @@ export default {
     name: "oscillator-node",
     props: {
         audioCtx: {},
-        audioDestination: {}
+        audioDestination: {},
+        destinationNode: {},
     },
     data() {
         return {
@@ -22,7 +23,7 @@ export default {
             type: 'sine',
             oscillator: null,
             frequency: 50,
-            on: false,
+            on: true,
         }
     },
     watch: {
@@ -33,7 +34,7 @@ export default {
             this.updateNode();
         },
         audioDestination(){
-            this.init();
+            if (this.audioDestination) this.oscillator.connect(this.audioDestination);
         },
         on(v) {
             if (v) {
@@ -48,7 +49,7 @@ export default {
     methods: {
         init() {
             this.oscillator = this.audioCtx.createOscillator();
-            if (this.audioDestination) this.oscillator.connect(this.audioDestination);
+            this.$emit('input', this.oscillator);
             this.updateNode();
             this.oscillator.start();
         },

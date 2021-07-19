@@ -1,7 +1,7 @@
 <template>
-    <v-card max-width="300">
+    <v-card width="100%" height="100%">
         <v-card-title>Gain Node</v-card-title>
-        <v-card-text>
+        <v-card-text class="no-drag">
             <v-slider :min="0" :max="100" v-model="gain"></v-slider>
         </v-card-text>
     </v-card>
@@ -13,7 +13,9 @@ export default {
     props: {
         audioCtx: {},
         audioDestination: {},
-        value: {}
+        value: {},
+        sourceNode: {},
+        destinationNode: {},
     },
     data() {
         return {
@@ -26,7 +28,8 @@ export default {
             this.updateNode();
         },
         audioDestination() {
-            this.init();
+            if (this.audioDestination) this.gainNode.connect(this.audioDestination);
+            this.updateNode();
         },
     },
     mounted() {
@@ -35,12 +38,10 @@ export default {
     methods: {
         init() {
             this.gainNode = this.audioCtx.createGain();
-            if (this.audioDestination) this.gainNode.connect(this.audioDestination);
-            this.updateNode();
+            this.$emit('input', this.gainNode)
         },
         updateNode() {
             this.gainNode.gain.setValueAtTime(this.gain / 100, this.audioCtx.currentTime);
-            this.$emit('input', this.gainNode)
         }
     }
 }
