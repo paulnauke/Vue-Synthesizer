@@ -1,4 +1,53 @@
-# synthesizer
+# Vue Synthesizer
+
+###[Live Demo](https://paulnauke.github.io/Vue-Synthesizer/)
+
+## Node Structure
+
+```bash
+<template>
+    <v-card width="100%" height="100%">
+        <v-card-title>***NAME***</v-card-title>
+        <v-card-text class="no-drag">
+            ***INPUT***
+        </v-card-text>
+    </v-card>
+</template>
+
+<script>
+export default {
+    props: ['audioCtx','audioDestination','value','sourceNode','destinationNode',],
+    data() {
+        return {
+            node: null,
+            someValue: 1,
+        }
+    },
+    watch: {
+        someValue() {
+            this.updateNode();
+        },
+        audioDestination() {
+            if (this.audioDestination) this.node.connect(this.audioDestination);
+            this.updateNode();
+        },
+    },
+    mounted() {
+        this.init();
+    },
+    methods: {
+        init() {
+            this.node = this.audioCtx.***someNode***();
+            this.$emit('input', this.node)
+        },
+        updateNode() {
+            this.node.someValue.setValueAtTime(this.someValue, this.audioCtx.currentTime);
+        }
+    }
+}
+</script>
+
+```
 
 ## Build Setup
 

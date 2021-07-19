@@ -1,9 +1,0 @@
-{
-  "name": "synthesizer",
-  "short_name": "synthesizer",
-  "icons": [],
-  "start_url": "/Vue-Synthesizer/?standalone=true",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "lang": "en"
-}
