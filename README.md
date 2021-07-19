@@ -1,6 +1,6 @@
 # Vue Synthesizer
 
-###[Live Demo](https://paulnauke.github.io/Vue-Synthesizer/)
+### [Live Demo](https://paulnauke.github.io/Vue-Synthesizer/)
 
 ## Node Structure
 
@@ -16,7 +16,7 @@
 
 <script>
 export default {
-    props: ['audioCtx','audioDestination','value','sourceNode','destinationNode',],
+    props: ['audioCtx','audioDestination','value','sourceNode','destinationNode'],
     data() {
         return {
             node: null,
